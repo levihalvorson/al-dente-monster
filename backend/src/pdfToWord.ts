@@ -1,5 +1,4 @@
 import { PDFNet } from '@pdftron/pdfnet-node';
-import fs from 'fs';
 
 export default async function pdfToWord() {
   try {
@@ -15,8 +14,6 @@ export default async function pdfToWord() {
 
     const wordOutputOptions = new PDFNet.Convert.WordOutputOptions();
     await PDFNet.Convert.toWord(PDFDoc, 'newfile.doc', wordOutputOptions);
-    const buffer = fs.readFileSync('newfile.doc');
-    return buffer;
   } catch (error) {
     console.log('🚀 -> main -> error:', error);
   }
