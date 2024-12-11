@@ -22,7 +22,7 @@ const Webviewer = () => {
   }, []);
 
   return (
-    <div className="flex-1 ml-[320px] max-h-[calc(100vh-60px)] h-full">
+    <div className="flex-1 ml-[340px] max-h-[calc(100vh-60px)] h-full">
       <div
         className="webviewer"
         ref={viewer}

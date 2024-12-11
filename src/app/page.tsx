@@ -8,7 +8,7 @@ export default function Home() {
     <div>
       <div className="h-[60px] bg-green-500">Navbar</div>
       <div className="flex">
-        <div className="bg-red-500 fixed w-[320px] h-[calc(100vh-60px)] top-[60px]">
+        <div className="bg-gray-200 fixed w-[340px] h-[calc(100vh-60px)] top-[60px]">
           <SideNav />
         </div>
         <Webviewer />
