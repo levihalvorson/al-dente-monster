@@ -18,17 +18,15 @@ const Webviewer = () => {
     ).then((instance) => {
       console.log('🚀 ~ ).then ~ instance:', instance);
       // const { docViewer } = instance;
-      // you can now call WebViewer APIs here...
     });
   }, []);
 
   return (
-    <div className="MyComponent">
-      <div className="header">React sample</div>
+    <div className="flex-1 ml-[320px] max-h-[calc(100vh-60px)] h-full">
       <div
         className="webviewer"
         ref={viewer}
-        style={{ height: '100vh' }}
+        style={{ height: '94vh' }}
       ></div>
     </div>
   );
