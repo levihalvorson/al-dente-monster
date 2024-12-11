@@ -1,32 +1,48 @@
 'use client';
 
-import WebViewer from '@pdftron/webviewer';
+import WebViewer, { WebViewerInstance } from '@pdftron/webviewer';
 import React, { useEffect, useRef } from 'react';
 
-const Webviewer = () => {
-  const viewer = useRef(null);
+const Webviewer = ({
+  documentUrls = ['https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf'],
+}: {
+  documentUrls?: string[];
+}) => {
+  const viewer = useRef<HTMLDivElement>(null);
+  const instanceRef = useRef<WebViewerInstance | null>(null);
 
-  useEffect(() => {
+  const initializeWebViewer = async () => {
     if (!viewer.current) return;
-    WebViewer(
+    const instance = await WebViewer(
       {
         path: '/webviewer/lib',
-        licenseKey: 'demo:1710282533582:7f3fac9803000000004e3fa69682defdb4b13dab92abd526876f7191ac', // sign up to get a key at https://dev.apryse.com
-        initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf',
+        licenseKey: 'demo:1710282533582:7f3fac9803000000004e3fa69682defdb4b13dab92abd526876f7191ac',
+        initialDoc: documentUrls[0],
       },
       viewer.current
-    ).then((instance) => {
-      console.log('🚀 ~ ).then ~ instance:', instance);
-      // const { docViewer } = instance;
-    });
+    );
+    instanceRef.current = instance;
+  };
+
+  useEffect(() => {
+    initializeWebViewer();
   }, []);
 
+  useEffect(() => {
+    if (documentUrls && documentUrls.length > 0) {
+      documentUrls.forEach((url) => {
+        if (!instanceRef.current) return;
+        instanceRef.current.Core.documentViewer.loadDocument(url);
+      });
+    }
+  }, [documentUrls]);
+
   return (
-    <div className="flex-1 ml-[320px] max-h-[calc(100vh-60px)] h-full">
+    <div className="flex-1 ml-[320px] max-h-[calc(100vh-60px)] h-full bg-white">
       <div
         className="webviewer"
         ref={viewer}
-        style={{ height: '94vh' }}
+        style={{ width: '100%', height: '100vh' }}
       ></div>
     </div>
   );
