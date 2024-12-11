@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "*.ts": "typescriptreact",
+    "plyconfig.json": "jsonc"
+  }
+}

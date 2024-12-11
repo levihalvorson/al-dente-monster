@@ -1,0 +1,33 @@
+logs/
+.github
+*.log
+*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.cache*
+t
+.vscode
+stash
+static
+
+# AWS files (example AWSCLIV2.pkg)
+/*.pkg
+/*.yml
+
+# Folders
+.next
+dist/
+node_modules/
+lib/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+
+# Changelog
+CHANGELOG.md
+
+# Ignore artifacts:
+public
+/.nx/workspace-data
