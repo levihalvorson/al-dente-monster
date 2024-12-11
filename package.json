@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && yarn move-static",
     "start": "next start",
     "lint": "next lint",
-    "move-static": "cp -a ./node_modules/@pdftron/webviewer/public/. ./dist/public/webviewer"
+    "move-static": "cp -a ./node_modules/@pdftron/webviewer/public/. ./public/webviewer/lib"
   },
   "dependencies": {
     "@pdftron/webviewer": "^11.1.1",
