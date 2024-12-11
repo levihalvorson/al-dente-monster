@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div>
       <div className="flex h-full bg-white">
-        <div className="bg-red-500 fixed w-[320px] h-[100vh]">
+        <div className="bg-gray-200 fixed w-[340px] h-[100vh]">
           <SideNav />
         </div>
         <Webviewer />
