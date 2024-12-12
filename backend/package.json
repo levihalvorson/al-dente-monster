@@ -10,9 +10,7 @@
   },
   "dependencies": {
     "@pdftron/pdfnet-node": "^11.1.0",
-    "express": "^4.21.2",
-    "p-pipe": "^4.0.0",
-    "trough": "^2.2.0"
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
