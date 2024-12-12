@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import useInterval from '@/util/useInterval';
+import React, { useState } from 'react';
 
 interface TypingTextProps {
   text: string;
@@ -6,30 +7,19 @@ interface TypingTextProps {
 }
 
 const TypingText: React.FC<TypingTextProps> = ({ text, speed = 50 }) => {
-  const [displayedText, setDisplayedText] = useState(text.charAt(0));
+  const [displayedText, setDisplayedText] = useState('');
+  const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    let index = 1;
-    const interval = setInterval(() => {
+  useInterval(() => {
+    if (index < text.length) {
       if (index < text.length) {
-        setDisplayedText((prev) => {
-          //   console.log('index', text.charAt(index));
-          //   console.log('prev', prev);
-          const newStr = prev + text.charAt(index);
-          console.log('newStr', newStr);
-          return newStr;
-        });
-        index++;
+        setDisplayedText((prev) => prev + text.charAt(index));
+        setIndex((prevIndex) => prevIndex + 1);
       }
-      //   if (index === text.length) {
-      //     clearInterval(interval);
-      //   }
-    }, speed);
+    }
+  }, speed);
 
-    return () => clearInterval(interval);
-  }, [text, speed]);
-
-  return <span>{displayedText}</span>;
+  return <p className="text-gray-900">{displayedText}</p>;
 };
 
 export default TypingText;

@@ -14,18 +14,22 @@ const SideNav = () => {
   console.log('file', file);
 
   return (
-    <div className="h-full px-2 py-4">
+    <div className="h-full py-4">
       <h1 className="text-gray-800 font-bold text-xl mb-2">Drag & Drop Files</h1>
-      <FileUploader
-        multiple={true}
-        handleChange={handleChange}
-        name="file"
-        types={fileTypes}
-        classes="w-[300px]"
-      />
+      <div className="px-2">
+        <FileUploader
+          multiple={true}
+          handleChange={handleChange}
+          name="file"
+          types={fileTypes}
+        />
+      </div>
       <p className="text-gray-800 mt-1">
         {file ? `File name: ${file[0]?.name}` : 'no files uploaded yet'}
       </p>
+      <div className="px-2 mt-2">
+        <div className="h-px bg-gray-400" />
+      </div>
       <ChatWindow />
     </div>
   );

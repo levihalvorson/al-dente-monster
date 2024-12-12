@@ -38,7 +38,7 @@ const Webviewer = ({
   }, [documentUrls]);
 
   return (
-    <div className="flex-1 ml-[340px] max-h-[calc(100vh-60px)] h-full bg-white">
+    <div className="flex-1 ml-[340px] max-h-[100vh] h-full bg-white">
       <div
         className="webviewer"
         ref={viewer}

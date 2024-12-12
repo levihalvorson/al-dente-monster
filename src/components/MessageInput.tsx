@@ -25,7 +25,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
       />
       <button
         onClick={handleSend}
-        className="mt-2 p-2 bg-blue-500 text-white rounded"
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
       >
         Send
       </button>
