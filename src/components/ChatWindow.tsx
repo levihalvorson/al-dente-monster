@@ -14,6 +14,15 @@ const ChatWindow = () => {
     };
     setMessages([...messages, newMessage]);
 
+    // Add loading message
+    const loadingMessage = {
+      text: '',
+      username: 'AI Bot',
+      avatar: '/robot-avatar.png',
+      isTypingText: false,
+    };
+    setMessages((prevMessages) => [...prevMessages, loadingMessage]);
+
     // Simulate AI response
     setTimeout(() => {
       const aiMessage = {
@@ -21,8 +30,14 @@ const ChatWindow = () => {
         username: 'AI Bot',
         avatar: '/robot-avatar.png',
         isTypingText: true,
+        pdfUrl: '/dummy.pdf',
+        pdfName: 'dummy.pdf',
       };
-      setMessages((prevMessages) => [...prevMessages, aiMessage]);
+      setMessages((prevMessages) => {
+        // Remove the loading message and add the AI response
+        const updatedMessages = prevMessages.slice(0, -1);
+        return [...updatedMessages, aiMessage];
+      });
     }, 1000);
   };
 
