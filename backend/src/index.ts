@@ -14,8 +14,6 @@ app.post("/actions", async (req: Request, res: Response) => {
   try {
     await PDFNet.runWithCleanup(pdfToWord, 'demo:1683842987815:7dd33b160300000000121d415dc2081c7eab9515b4cb8a5de30b5b8157');
     PDFNet.shutdown();
-    const buffer = fs.readFileSync('newfile.doc');
-    console.log("🚀 -> app.post -> buffer:", buffer)
     res.send('Success');
   } catch (error) {
     console.log("🚀 -> PDFNet -> error:", JSON.stringify(error))
