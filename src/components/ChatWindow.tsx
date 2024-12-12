@@ -36,7 +36,7 @@ const ChatWindow = ({
         username: 'AI Bot',
         avatar: '/robot-avatar.png',
         isTypingText: true,
-        pdfUrl: 'converted.pdf',
+        pdfUrl: '/converted.pdf',
         pdfName: 'converted.pdf',
       };
       setMessages((prevMessages) => {
