@@ -5,17 +5,36 @@ import ChatWindow from './ChatWindow';
 
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'PDF'];
 
+async function sendFileData(fileList: File[]) {
+  try {
+    const formData = new FormData();
+    formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord', 'toPdf'] }));
+    for (let i = 0; i < fileList.length; i++) {
+      formData.append("pdfs", fileList[i]);
+    }
+
+    await fetch('http://localhost:3001/actions', {
+      method: 'POST',
+      body: formData,
+    });
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+}
+
 const SideNav = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const handleChange = (file: File[]) => {
-    setFiles((prev: File[]) => [...prev, ...file]);
+  const handleChange = async (files: File[]) => {
+    setFiles((prev: File[]) => [...prev, ...files]);
+    await sendFileData([...files]);
   };
 
   console.log('file', files);
 
   return (
     <div className="h-full py-4">
-      <h1 className="text-gray-800 font-bold text-xl mb-2">Drag & Drop Files</h1>
+      <h1 className="text-gray-800 font-bold text-xl mb-2 ml-2">Drag & Drop Files</h1>
       <div className="px-2">
         <FileUploader
           multiple={true}
@@ -24,14 +43,16 @@ const SideNav = () => {
           types={fileTypes}
         />
       </div>
-      <p className="text-gray-800 mt-1">
+      <p className="text-gray-800 mt-1 ml-2">
         {files.length !== 0 ? 'Files uploaded:' : 'no files uploaded yet'}
         {files.map((file: File, index: number) => (
-          <span key={index} className="block">
+          <span
+            key={index}
+            className="block"
+          >
             {file.name}
           </span>
         ))}
-     
       </p>
       <div className="px-2 mt-2">
         <div className="h-px bg-gray-400" />
