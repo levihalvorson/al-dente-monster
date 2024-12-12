@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-const ChatWindow = () => {
+const ChatWindow = ({ onClearChat }: { onClearChat: (clearMessages: () => void) => void }) => {
   const [messages, setMessages] = useState<{ text: string; username: string; avatar: string }[]>(
     []
   );
@@ -41,8 +41,15 @@ const ChatWindow = () => {
     }, 1000);
   };
 
+  const clearMessages = () => {
+    setMessages([]);
+  };
+
+  // Pass the clearMessages function to the parent component
+  onClearChat(clearMessages);
+
   return (
-    <div className="flex flex-col h-[calc(100vh-130px)] bg-gray-300 rounded">
+    <div className="flex flex-col h-[calc(100vh-180px)] bg-gray-300 rounded">
       <MessageList messages={messages} />
       <MessageInput onSendMessage={handleSendMessage} />
     </div>
