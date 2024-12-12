@@ -55,9 +55,12 @@ const ChatWindow = ({
   onClearChat(clearMessages);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-450px)] bg-gray-300 rounded">
+    <div className="flex flex-col h-[calc(100vh-185px)] bg-gray-300 rounded">
       <MessageList messages={messages} />
-      <MessageInput onSendMessage={handleSendMessage} clearChat={clearChat} />
+      <MessageInput
+        onSendMessage={handleSendMessage}
+        clearChat={clearChat}
+      />
     </div>
   );
 };
