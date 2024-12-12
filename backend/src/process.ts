@@ -28,8 +28,6 @@ export default async function process({ files, actions }: { files: string[]; act
 
   try {
     //@ts-ignore
-    // const actionPipeline = merge(files) as (...params: any[]) => Promise<void>;
-    // const actionPipeline = pipe(actions.map((action) => actionMap[action]))(files) as (...params: any[]) => Promise<void>;
     const actionPipeline = pipe(actions.map((action) => actionMap[action]))(files) as (...params: any[]) => Promise<void>;
     await PDFNet.runWithCleanup(
       actionPipeline,
