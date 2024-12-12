@@ -1,7 +1,5 @@
 import express, { Express, Request, Response } from "express";
-import { PDFNet } from '@pdftron/pdfnet-node';
-import fs from 'fs';
-import pdfToWord from "./pdfToWord";
+import process from "./process";
 
 const app: Express = express();
 const port = 3001;
@@ -12,8 +10,11 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/actions", async (req: Request, res: Response) => {
   try {
-    await PDFNet.runWithCleanup(pdfToWord, 'demo:1683842987815:7dd33b160300000000121d415dc2081c7eab9515b4cb8a5de30b5b8157');
-    PDFNet.shutdown();
+    // const { files, actions } = req.body;
+    await process({
+      files: ['file1.pdf', 'file2.pdf', 'file3.pdf'],
+      actions: ['merge', 'pdfToWord'],
+    })
     res.send('Success');
   } catch (error) {
     console.log("🚀 -> PDFNet -> error:", JSON.stringify(error))

@@ -2,8 +2,8 @@ import { PDFNet } from '@pdftron/pdfnet-node';
 import path from 'path';
 
 export default async function merge(filePaths: string[]) {
-  const paths = filePaths.map((filePath) => path.join(__dirname, filePath));
-
+  const paths = filePaths.map((filePath) => path.join(__dirname, './files', filePath));
+  console.log('🚀 -> merge -> paths:', paths);
   try {
     console.log('Merge several PDF documents into one...');
     await PDFNet.startDeallocateStack();
@@ -24,9 +24,10 @@ export default async function merge(filePaths: string[]) {
       );
       totalPageCount += currDocPageCount;
     }
-    await newDoc.save('./merged.pdf', PDFNet.SDFDoc.SaveOptions.e_remove_unused);
+    await newDoc.save(path.join(__dirname, './files/merged.pdf'), PDFNet.SDFDoc.SaveOptions.e_remove_unused);
     console.log('Done merging documents');
     await PDFNet.endDeallocateStack();
+    return path.join(__dirname, './files/merged.pdf');
   } catch (error) {
     console.log('🚀 -> merge -> error:', JSON.stringify(error));
   }
