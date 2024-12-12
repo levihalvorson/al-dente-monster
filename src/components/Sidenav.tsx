@@ -10,7 +10,7 @@ async function sendFileData(fileList: File[]) {
     const formData = new FormData();
     formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord', 'toPdf'] }));
     for (let i = 0; i < fileList.length; i++) {
-      formData.append("pdfs", fileList[i]);
+      formData.append('pdfs', fileList[i]);
     }
 
     await fetch('http://localhost:3001/actions', {
@@ -27,9 +27,11 @@ const SideNav = () => {
   const [files, setFiles] = useState<File[]>([]);
   const handleChange = async (files: File[]) => {
     setFiles((prev: File[]) => [...prev, ...files]);
-    await sendFileData([...files]);
   };
 
+  const onClick = async () => {
+    await sendFileData(files);
+  };
   console.log('file', files);
 
   return (
@@ -54,6 +56,12 @@ const SideNav = () => {
           </span>
         ))}
       </p>
+      <button
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={onClick}
+      >
+        Done
+      </button>
       <div className="px-2 mt-2">
         <div className="h-px bg-gray-400" />
       </div>
