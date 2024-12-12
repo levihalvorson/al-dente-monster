@@ -1,11 +1,13 @@
 import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 import process from "./process";
 
 const app: Express = express();
 const port = 3001;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
@@ -18,11 +20,10 @@ app.post("/actions", async (req: Request, res: Response) => {
     console.log("🚀 -> app.post -> files:", files)
     await process({
       files: ['file1.pdf', 'file2.pdf', 'file3.pdf'],
-      actions: ['merge', 'pdfToWord'],
+      actions: ['merge', 'pdfToWord', 'toPdf'],
     })
     res.send('Success');
   } catch (error) {
-    console.log("🚀 -> app.post -> error:", error)
     console.log("🚀 -> PDFNet -> error:", JSON.stringify(error))
     res.status(500).send('Error');
   }
