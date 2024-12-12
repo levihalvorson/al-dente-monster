@@ -13,7 +13,7 @@ app.post("/actions", async (req: Request, res: Response) => {
     // const { files, actions } = req.body;
     await process({
       files: ['file1.pdf', 'file2.pdf', 'file3.pdf'],
-      actions: ['merge', 'pdfToWord'],
+      actions: ['merge', 'pdfToWord', 'toPdf'],
     })
     res.send('Success');
   } catch (error) {

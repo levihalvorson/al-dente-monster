@@ -17,7 +17,10 @@ export default async function pdfToWord(inputFilePath: string) {
     // );
 
     const wordOutputOptions = new PDFNet.Convert.WordOutputOptions();
-    await PDFNet.Convert.toWord(PDFDoc, path.join(__dirname, './files/convertedFile.doc'), wordOutputOptions);
+    const outputPath = path.join(__dirname, './files/convertedFile.doc')
+    await PDFNet.Convert.toWord(PDFDoc, outputPath, wordOutputOptions);
+    return outputPath;
+  return 
   } catch (error) {
     console.log('🚀 -> main -> error:', error);
   }

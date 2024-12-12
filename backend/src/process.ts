@@ -1,10 +1,12 @@
 import { PDFNet } from '@pdftron/pdfnet-node';
 import merge from './merge';
 import pdfToWord from './pdfToWord';
+import toPdf from './toPdf';
 
 const actionMap = {
   merge: merge,
   pdfToWord: pdfToWord,
+  toPdf: toPdf,
 };
 
 function pipe(functions: any[]) {
