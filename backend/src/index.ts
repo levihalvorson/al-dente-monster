@@ -22,7 +22,6 @@ app.post('/actions', upload.array('pdfs', 12), async (req: Request, res: Respons
 
     const body: { actions: string[] } = JSON.parse(req.body.json);
     const actions = body.actions;
-    console.log("🚀 -> app.post -> actions:", actions)
     if (!actions) {
       res.status(400).send('No actions were specified.');
       return;
@@ -34,7 +33,7 @@ app.post('/actions', upload.array('pdfs', 12), async (req: Request, res: Respons
       files: fileNames,
       actions,
     });
-    res.send('Success');
+    res.status(200).send({message: 'Success'});
   } catch (error) {
     console.log('🚀 -> PDFNet -> error:', JSON.stringify(error));
     res.status(500).send('Error');

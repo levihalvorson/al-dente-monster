@@ -1,16 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { WebViewerInstance } from '@pdftron/webviewer';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 const ChatWindow = ({
   onClearChat,
   clearChat,
+  files,
+  instance,
 }: {
   onClearChat: (clearMessages: () => void) => void;
   clearChat: () => void;
+  files: File[];
+  instance: WebViewerInstance | null;
 }) => {
   const [messages, setMessages] = useState<{ text: string; username: string; avatar: string }[]>(
     []
   );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [convertedFileName, setConvertedFileName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (loading == false && convertedFileName) {
+      const finishMessage = {
+        text: 'Here is your converted file:',
+        username: 'AI Bot',
+        avatar: '/robot-avatar.png',
+        isTypingText: true,
+        pdfUrl: `/${convertedFileName}`,
+        pdfName: convertedFileName,
+      };
+      setMessages((prevMessages) => [...prevMessages, finishMessage]);
+      if (instance) {
+        instance.UI.loadDocument(convertedFileName, {
+          extension: 'doc'
+        });
+      }
+    }
+  }, [loading, convertedFileName, instance]);
+
+  async function sendFileData(fileList: File[]) {
+    try {
+      const formData = new FormData();
+      formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord'] }));
+      for (let i = 0; i < fileList.length; i++) {
+        formData.append('pdfs', fileList[i]);
+      }
+  
+      const res = await fetch('http://localhost:3001/actions', {
+        method: 'POST',
+        body: formData,
+      });
+      return res.json();
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+  }
 
   const handleSendMessage = (text: string) => {
     const newMessage = {
@@ -22,7 +67,7 @@ const ChatWindow = ({
 
     // Add loading message
     const loadingMessage = {
-      text: '',
+      text: '...',
       username: 'AI Bot',
       avatar: '/robot-avatar.png',
       isTypingText: false,
@@ -30,20 +75,26 @@ const ChatWindow = ({
     setMessages((prevMessages) => [...prevMessages, loadingMessage]);
 
     // Simulate AI response
-    setTimeout(() => {
+    setTimeout(async () => {
       const aiMessage = {
-        text: 'This is an AI response.',
+        text: 'Yes, I can help you process your PDF files. Please wait a moment while I convert your files...',
         username: 'AI Bot',
         avatar: '/robot-avatar.png',
         isTypingText: true,
-        pdfUrl: '/converted.pdf',
-        pdfName: 'converted.pdf',
       };
       setMessages((prevMessages) => {
         // Remove the loading message and add the AI response
         const updatedMessages = prevMessages.slice(0, -1);
         return [...updatedMessages, aiMessage];
       });
+      setTimeout(async () => {
+        setLoading(true);
+        const res = await sendFileData(files);
+        console.log("🚀 -> setTimeout -> res:", res)
+        setLoading(false);
+        setConvertedFileName('converted.doc');
+      }, 10000);
+
     }, 1000);
   };
 

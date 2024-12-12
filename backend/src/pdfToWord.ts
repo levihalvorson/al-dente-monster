@@ -1,6 +1,5 @@
 import { PDFNet } from '@pdftron/pdfnet-node';
-import path
- from 'path';
+import path from 'path';
 export default async function pdfToWord(inputFilePath: string) {
   console.log('🚀 -> pdfToWord -> inputFilePath:', inputFilePath);
   try {
@@ -17,10 +16,10 @@ export default async function pdfToWord(inputFilePath: string) {
     // );
 
     const wordOutputOptions = new PDFNet.Convert.WordOutputOptions();
-    const outputPath = path.join(__dirname, './files/convertedFile.doc')
+    const outputPath = path.join(__dirname, '../../public/', 'converted.doc');
     await PDFNet.Convert.toWord(PDFDoc, outputPath, wordOutputOptions);
     return outputPath;
-  return 
+    return;
   } catch (error) {
     console.log('🚀 -> main -> error:', error);
   }

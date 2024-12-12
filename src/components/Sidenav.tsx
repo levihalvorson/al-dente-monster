@@ -1,5 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
+import { WebViewerInstance } from '@pdftron/webviewer';
 import { FileUploader } from 'react-drag-drop-files';
 import ChatWindow from './ChatWindow';
 import { FaInfoCircle } from 'react-icons/fa';
@@ -7,25 +8,7 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'PDF'];
 
-async function sendFileData(fileList: File[]) {
-  try {
-    const formData = new FormData();
-    formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord', 'toPdf'] }));
-    for (let i = 0; i < fileList.length; i++) {
-      formData.append('pdfs', fileList[i]);
-    }
-
-    await fetch('http://localhost:3001/actions', {
-      method: 'POST',
-      body: formData,
-    });
-  } catch (err) {
-    console.error(err);
-    return;
-  }
-}
-
-const SideNav = () => {
+const SideNav = ({ instance }: { instance: WebViewerInstance | null }) => {
   const [files, setFiles] = useState<File[]>([]);
   const handleChange = async (files: File[]) => {
     setFiles((prev: File[]) => [...prev, ...files]);
@@ -39,9 +22,6 @@ const SideNav = () => {
   const clearChat = () => {
     clearChatRef.current();
     setFiles([]);
-  };
-  const onClick = async () => {
-    await sendFileData(files);
   };
   console.log('file', files);
 
@@ -82,14 +62,6 @@ const SideNav = () => {
             </>
           )}
         </div>
-        {files.length > 0 && (
-          <button
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={onClick}
-          >
-            Finished Uploading
-          </button>
-        )}
         <div className="px-2 mt-2">
           <div className="h-px bg-gray-400" />
         </div>
@@ -98,6 +70,8 @@ const SideNav = () => {
       <ChatWindow
         onClearChat={handleClearChat}
         clearChat={clearChat}
+        files={files}
+        instance={instance}
       />
     </div>
   );

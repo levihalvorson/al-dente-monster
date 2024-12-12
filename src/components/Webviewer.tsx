@@ -1,41 +1,12 @@
 'use client';
 
-import WebViewer, { WebViewerInstance } from '@pdftron/webviewer';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 const Webviewer = ({
-  documentUrls = ['https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf'],
+  viewer,
 }: {
-  documentUrls?: string[];
+  viewer: React.RefObject<HTMLDivElement>;
 }) => {
-  const viewer = useRef<HTMLDivElement>(null);
-  const instanceRef = useRef<WebViewerInstance | null>(null);
-
-  const initializeWebViewer = async () => {
-    if (!viewer.current) return;
-    const instance = await WebViewer(
-      {
-        path: '/webviewer/lib',
-        licenseKey: 'demo:1710282533582:7f3fac9803000000004e3fa69682defdb4b13dab92abd526876f7191ac',
-        initialDoc: documentUrls[0],
-      },
-      viewer.current
-    );
-    instanceRef.current = instance;
-  };
-
-  useEffect(() => {
-    initializeWebViewer();
-  }, []);
-
-  useEffect(() => {
-    if (documentUrls && documentUrls.length > 0) {
-      documentUrls.forEach((url) => {
-        if (!instanceRef.current) return;
-        instanceRef.current.Core.documentViewer.loadDocument(url);
-      });
-    }
-  }, [documentUrls]);
 
   return (
     <div className="flex-1 ml-[340px] max-h-[100vh] h-full bg-white">

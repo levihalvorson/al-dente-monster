@@ -40,7 +40,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
           {message.isTypingText ? (
             <TypingText
               text={message.text}
-              speed={100}
+              speed={50}
               onComplete={() => handleTypingComplete(index)}
             />
           ) : message.text ? (
