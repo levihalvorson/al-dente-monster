@@ -12,10 +12,8 @@ const TypingText: React.FC<TypingTextProps> = ({ text, speed = 50 }) => {
 
   useInterval(() => {
     if (index < text.length) {
-      if (index < text.length) {
-        setDisplayedText((prev) => prev + text.charAt(index));
-        setIndex((prevIndex) => prevIndex + 1);
-      }
+      setDisplayedText((prev) => prev + text.charAt(index));
+      setIndex((prevIndex) => prevIndex + 1);
     }
   }, speed);
 
