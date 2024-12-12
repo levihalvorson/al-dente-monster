@@ -16,27 +16,6 @@ const ChatWindow = ({
   const [messages, setMessages] = useState<{ text: string; username: string; avatar: string }[]>(
     []
   );
-  const [loading, setLoading] = useState<boolean>(false);
-  const [convertedFileName, setConvertedFileName] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (loading == false && convertedFileName) {
-      const finishMessage = {
-        text: 'Here is your converted file:',
-        username: 'AI Bot',
-        avatar: '/robot-avatar.png',
-        isTypingText: true,
-        pdfUrl: `/${convertedFileName}`,
-        pdfName: convertedFileName,
-      };
-      setMessages((prevMessages) => [...prevMessages, finishMessage]);
-      if (instance) {
-        instance.UI.loadDocument(convertedFileName, {
-          extension: 'doc'
-        });
-      }
-    }
-  }, [loading, convertedFileName, instance]);
 
   async function sendFileData(fileList: File[]) {
     try {
@@ -88,11 +67,25 @@ const ChatWindow = ({
         return [...updatedMessages, aiMessage];
       });
       setTimeout(async () => {
-        setLoading(true);
         const res = await sendFileData(files);
         console.log("🚀 -> setTimeout -> res:", res)
-        setLoading(false);
-        setConvertedFileName('converted.doc');
+        const convertedFileName = 'converted.doc';
+        const finishMessage = {
+          text: 'Here is your converted file:',
+          username: 'AI Bot',
+          avatar: '/robot-avatar.png',
+          isTypingText: true,
+          pdfUrl: `/${convertedFileName}`,
+          pdfName: convertedFileName,
+        };
+        setMessages((prevMessages) => [...prevMessages, finishMessage]);
+        // await 2 seconds before loading the document
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (instance) {
+          instance.UI.loadDocument(convertedFileName, {
+            extension: 'doc'
+          });
+        }
       }, 10000);
 
     }, 1000);
