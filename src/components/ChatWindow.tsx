@@ -79,8 +79,6 @@ const ChatWindow = ({
           pdfName: convertedFileName,
         };
         setMessages((prevMessages) => [...prevMessages, finishMessage]);
-        // await 2 seconds before loading the document
-        await new Promise((resolve) => setTimeout(resolve, 2000));
         if (instance) {
           instance.UI.loadDocument(convertedFileName, {
             extension: 'doc'

@@ -33,6 +33,8 @@ app.post('/actions', upload.array('pdfs', 12), async (req: Request, res: Respons
       files: fileNames,
       actions,
     });
+    // waiting for the file to be written
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     res.status(200).send({message: 'Success'});
   } catch (error) {
     console.log('🚀 -> PDFNet -> error:', JSON.stringify(error));
