@@ -13,7 +13,7 @@ export default async function pdfToWord() {
     );
 
     const wordOutputOptions = new PDFNet.Convert.WordOutputOptions();
-    await PDFNet.Convert.toWord(PDFDoc, 'newfile.doc', wordOutputOptions);
+    await PDFNet.Convert.toWord(PDFDoc, '../public/convertedFile.doc', wordOutputOptions);
   } catch (error) {
     console.log('🚀 -> main -> error:', error);
   }
