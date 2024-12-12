@@ -2,6 +2,8 @@ import { PDFNet } from '@pdftron/pdfnet-node';
 import path from 'path';
 export default async function toPdf(inputFilePath: string) {
   try {
+    console.log('🚀 -> convert to pdf -> inputFilePath:', inputFilePath);
+
     const pdfDoc = await PDFNet.PDFDoc.create();
     await pdfDoc.initSecurityHandler();
     await PDFNet.Convert.toPdf(pdfDoc, inputFilePath);
