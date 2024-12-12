@@ -6,12 +6,12 @@ import ChatWindow from './ChatWindow';
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'PDF'];
 
 const SideNav = () => {
-  const [file, setFile] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const handleChange = (file: File[]) => {
-    setFile(file);
+    setFiles((prev: File[]) => [...prev, ...file]);
   };
 
-  console.log('file', file);
+  console.log('file', files);
 
   return (
     <div className="h-full py-4">
@@ -25,7 +25,13 @@ const SideNav = () => {
         />
       </div>
       <p className="text-gray-800 mt-1">
-        {file ? `File name: ${file[0]?.name}` : 'no files uploaded yet'}
+        {files.length !== 0 ? 'Files uploaded:' : 'no files uploaded yet'}
+        {files.map((file: File, index: number) => (
+          <span key={index} className="block">
+            {file.name}
+          </span>
+        ))}
+     
       </p>
       <div className="px-2 mt-2">
         <div className="h-px bg-gray-400" />
