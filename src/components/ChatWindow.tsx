@@ -21,7 +21,7 @@ const ChatWindow = ({
   async function sendFileData(fileList: File[], message: string) {
     try {
       const formData = new FormData();
-      formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord'], message }));
+      formData.append('json', JSON.stringify({ message }));
       for (let i = 0; i < fileList.length; i++) {
         formData.append('pdfs', fileList[i]);
       }

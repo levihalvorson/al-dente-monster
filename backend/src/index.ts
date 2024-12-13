@@ -16,7 +16,7 @@ export const sendMessageToChatGPT = async (message: string) => {
         },
     ],
 });
-  console.log("🚀 -> sendMessageToChatGPT -> completion", completion.choices[0].message)
+  // console.log("🚀 -> sendMessageToChatGPT -> completion", completion.choices[0].message)
   return completion.choices[0].message.content;
 };
 
@@ -46,6 +46,7 @@ app.post('/actions', upload.array('pdfs', 12), async (req: Request, res: Respons
     // }
     const aiResponse = await sendMessageToChatGPT(body.message);
     const actions = aiResponse?.split(',').map((action: string) => action.trim()) || [];
+    console.log("=== actions ====", actions)
     const multerFiles = req.files as Express.Multer.File[];
     const fileNames = multerFiles.map((file: Express.Multer.File) => file.filename);
     await process({
