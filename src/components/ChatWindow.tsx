@@ -24,7 +24,7 @@ const ChatWindow = ({
       for (let i = 0; i < fileList.length; i++) {
         formData.append('pdfs', fileList[i]);
       }
-  
+
       const res = await fetch('http://localhost:3001/actions', {
         method: 'POST',
         body: formData,
@@ -68,7 +68,7 @@ const ChatWindow = ({
       });
       setTimeout(async () => {
         const res = await sendFileData(files);
-        console.log("🚀 -> setTimeout -> res:", res)
+        console.log('🚀 -> setTimeout -> res:', res);
         const convertedFileName = 'converted.doc';
         const finishMessage = {
           text: 'Here is your converted file:',
@@ -81,11 +81,10 @@ const ChatWindow = ({
         setMessages((prevMessages) => [...prevMessages, finishMessage]);
         if (instance) {
           instance.UI.loadDocument(convertedFileName, {
-            extension: 'doc'
+            extension: 'doc',
           });
         }
       }, 10000);
-
     }, 1000);
   };
 
@@ -97,7 +96,7 @@ const ChatWindow = ({
   onClearChat(clearMessages);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-185px)] bg-gray-300 rounded">
+    <div className="flex flex-col h-[calc(100vh-185px)] bg-white">
       <MessageList messages={messages} />
       <MessageInput
         onSendMessage={handleSendMessage}

@@ -24,21 +24,21 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, clearChat })
         className="w-full p-2 border rounded text-gray-700"
         placeholder="Type a message..."
       />
-      <div className='flex gap-40 w-full'>
-      <button
-        onClick={handleSend}
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Send
-      </button>
-      <div className="px-2">
+      <div className="flex gap-5 w-full justify-evenly">
         <button
-          onClick={clearChat}
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 text-xs"
+          onClick={handleSend}
+          className="mt-2 px-4 py-2 w-full bg-[#0206A8] text-white rounded hover:bg-blue-700 transition-colors duration-300"
         >
-          Clear Chat
+          Send
         </button>
-      </div>
+        <div className="w-full">
+          <button
+            onClick={clearChat}
+            className="mt-2 px-4 py-2 w-full bg-[#0206A8] text-white rounded hover:bg-blue-700 transition-colors duration-300"
+          >
+            Clear Chat
+          </button>
+        </div>
       </div>
     </div>
   );
