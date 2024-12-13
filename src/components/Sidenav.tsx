@@ -26,7 +26,7 @@ const SideNav = ({ instance }: { instance: WebViewerInstance | null }) => {
   console.log('file', files);
 
   return (
-    <div className="h-full py-4">
+    <div className="h-full py-4 border-r-[1px] border-r-[#CFD4DA]">
       <div className="h-[170px]">
         <h1 className="text-gray-800 font-bold text-xl mb-2 ml-2">Drag & Drop Files</h1>
         <div className="px-2">

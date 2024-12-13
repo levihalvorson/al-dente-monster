@@ -28,10 +28,10 @@ export default function Home() {
   return (
     <div>
       <div className="flex h-full bg-white overflow-y-hidden">
-        <div className="bg-gray-300 fixed w-[340px] h-[100vh]">
-          <SideNav instance={instance}/>
+        <div className="bg-white fixed w-[340px] h-[100vh]">
+          <SideNav instance={instance} />
         </div>
-        <Webviewer viewer={viewer}/>
+        <Webviewer viewer={viewer} />
       </div>
     </div>
   );
