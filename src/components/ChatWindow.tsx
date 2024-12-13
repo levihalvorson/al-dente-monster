@@ -17,6 +17,7 @@ const ChatWindow = ({
   const [messages, setMessages] = useState<{ text: string; username: string; avatar: string }[]>(
     []
   );
+  const [processedFile, setProcessedFile] = useState<File | null>(null);
 
   async function sendFileData(fileList: File[], message: string) {
     try {
@@ -68,15 +69,17 @@ const ChatWindow = ({
         return [...updatedMessages, aiMessage];
       });
       setTimeout(async () => {
-        const res = await sendFileData(files, text);
+        const fileToSend = processedFile ? [processedFile] : files;
+        const res = await sendFileData(fileToSend, text);
         console.log("🚀 -> setTimeout -> res:", res)
-        const convertedFileName = 'converted.doc';
+        const convertedFileName = res.processedFile;
+        setProcessedFile(convertedFileName);
         const finishMessage = {
           text: 'Here is your converted file:',
           username: 'AI Bot',
           avatar: '/robot-avatar.png',
           isTypingText: true,
-          pdfUrl: `/${convertedFileName}`,
+          pdfUrl: `${convertedFileName}`,
           pdfName: convertedFileName,
         };
         setMessages((prevMessages) => [...prevMessages, finishMessage]);

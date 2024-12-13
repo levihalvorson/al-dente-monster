@@ -3,7 +3,9 @@ import cors from 'cors';
 import multer from 'multer';
 import process from './process';
 import OpenAI from "openai";
-const openai = new OpenAI({ apiKey: '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', project: 'proj_aV4aoqnJfYTYdepk8qqZtiCa'});
+import path from 'path';
+
+const openai = new OpenAI({ apiKey: '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', project: 'proj_aV4aoqnJfYTYdepk8qqZtiCa'});
 
 export const sendMessageToChatGPT = async (message: string) => {
   const completion = await openai.chat.completions.create({
@@ -12,7 +14,7 @@ export const sendMessageToChatGPT = async (message: string) => {
         { role: "system", content: "You are a helpful assistant." },
         {
             role: "user",
-            content: `I have three actions I can do to process files: merge, pdfToWord and toPdf. Return the actions asked for in this sentence: '${message}' in words separated by comma.`,
+            content: `I have three actions I can do to process files: merge, pdfToWord and toPdf. Return the actions asked for this question: '${message}' in action names separated by comma, no extra description`,
         },
     ],
 });
@@ -25,6 +27,12 @@ const port = 3001;
 const upload = multer({ dest: 'src/files/' });
 
 app.use(cors());
+
+const actionFileExtensionMap = {
+  merge: 'pdf',
+  pdfToWord: 'doc',
+  toPdf: 'pdf',
+}
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
@@ -49,14 +57,18 @@ app.post('/actions', upload.array('pdfs', 12), async (req: Request, res: Respons
     console.log("=== actions ====", actions)
     const multerFiles = req.files as Express.Multer.File[];
     const fileNames = multerFiles.map((file: Express.Multer.File) => file.filename);
-    await process({
+     await process({
       files: fileNames,
       actions,
     });
     // waiting for the file to be written
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    res.status(200).send({message: 'Success'});
+    //@ts-ignore
+    const fileExtension = actionFileExtensionMap[actions.pop()];
+    console.log("🚀 -> fileExtension", fileExtension)
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
+    res.status(200).send({message: 'Success', processedFile: `processed.${fileExtension}`});
   } catch (error) {
+    console.log(error)
     console.log('🚀 -> PDFNet -> error:', JSON.stringify(error));
     res.status(500).send('Error');
   }

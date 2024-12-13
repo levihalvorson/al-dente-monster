@@ -24,10 +24,12 @@ export default async function merge(filePaths: string[]) {
       );
       totalPageCount += currDocPageCount;
     }
-    await newDoc.save(path.join(__dirname, './files/merged.pdf'), PDFNet.SDFDoc.SaveOptions.e_remove_unused);
+    const outputPath = path.join(__dirname, '../../public/', 'processed.pdf');
+
+    await newDoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_remove_unused);
     console.log('Done merging documents');
     await PDFNet.endDeallocateStack();
-    return path.join(__dirname, './files/merged.pdf');
+    return outputPath;
   } catch (error) {
     console.log('🚀 -> merge -> error:', JSON.stringify(error));
   }
