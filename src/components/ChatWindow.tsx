@@ -17,12 +17,12 @@ const ChatWindow = ({
   const [messages, setMessages] = useState<{ text: string; username: string; avatar: string }[]>(
     []
   );
-  const [processedFile, setProcessedFile] = useState<File | null>(null);
+  const [processedFilePath, setProcessedFilePath] = useState<string | undefined>(undefined);
 
-  async function sendFileData(fileList: File[], message: string) {
+  async function sendFileData({fileList, message, filePath}: {fileList: File[]; message: string; filePath?: string}) {
     try {
       const formData = new FormData();
-      formData.append('json', JSON.stringify({ message }));
+      formData.append('json', JSON.stringify({ message, filePath }));
       for (let i = 0; i < fileList.length; i++) {
         formData.append('pdfs', fileList[i]);
       }
@@ -69,11 +69,10 @@ const ChatWindow = ({
         return [...updatedMessages, aiMessage];
       });
       setTimeout(async () => {
-        const fileToSend = processedFile ? [processedFile] : files;
-        const res = await sendFileData(fileToSend, text);
+        const res = await sendFileData({fileList: files, message: text, filePath: processedFilePath});
         console.log("🚀 -> setTimeout -> res:", res)
         const convertedFileName = res.processedFile;
-        setProcessedFile(convertedFileName);
+        setProcessedFilePath(convertedFileName);
         const finishMessage = {
           text: 'Here is your converted file:',
           username: 'AI Bot',

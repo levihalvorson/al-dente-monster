@@ -40,23 +40,27 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/actions', upload.array('pdfs', 12), async (req: Request, res: Response) => {
   try {
-    if (!req.files) {
-      res.status(400).send('No files were uploaded.');
-      return;
+    const fileNames: string[] = [];
+    const body: {  message: string; filePath?: string} = JSON.parse(req.body.json);
+    const aiResponse = await sendMessageToChatGPT(body.message);
+    const actions = aiResponse?.split(',').map((action: string) => action.trim()) || [];
+    console.log("=== actions ====", actions)
+    if(body.filePath) {
+      fileNames.push(path.join(__dirname, '../../public/', body.filePath));
+    } else {
+      const multerFiles = req.files as Express.Multer.File[];
+      fileNames.push(...multerFiles.map((file: Express.Multer.File) => file.filename));
     }
 
+
     
-    const body: { actions: string[]; message: string } = JSON.parse(req.body.json);
     // const actions = body.actions;
     // if (!actions) {
     //   res.status(400).send('No actions were specified.');
     //   return;
     // }
-    const aiResponse = await sendMessageToChatGPT(body.message);
-    const actions = aiResponse?.split(',').map((action: string) => action.trim()) || [];
-    console.log("=== actions ====", actions)
-    const multerFiles = req.files as Express.Multer.File[];
-    const fileNames = multerFiles.map((file: Express.Multer.File) => file.filename);
+
+
      await process({
       files: fileNames,
       actions,
