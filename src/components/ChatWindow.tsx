@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { WebViewerInstance } from '@pdftron/webviewer';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
+
 const ChatWindow = ({
   onClearChat,
   clearChat,
@@ -17,10 +18,10 @@ const ChatWindow = ({
     []
   );
 
-  async function sendFileData(fileList: File[]) {
+  async function sendFileData(fileList: File[], message: string) {
     try {
       const formData = new FormData();
-      formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord'] }));
+      formData.append('json', JSON.stringify({ actions: ['merge', 'pdfToWord'], message }));
       for (let i = 0; i < fileList.length; i++) {
         formData.append('pdfs', fileList[i]);
       }
@@ -67,7 +68,7 @@ const ChatWindow = ({
         return [...updatedMessages, aiMessage];
       });
       setTimeout(async () => {
-        const res = await sendFileData(files);
+        const res = await sendFileData(files, text);
         console.log("🚀 -> setTimeout -> res:", res)
         const convertedFileName = 'converted.doc';
         const finishMessage = {
